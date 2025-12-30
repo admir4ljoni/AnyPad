@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap Per Mata Kuliah - PTIK UNS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Badge for Connections */
+        .conn-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 99px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .conn-badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Card Styles */
+        .subject-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            /* Menandakan bisa diklik */
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: currentColor;
+            /* Highlight border on hover */
+        }
+
+        /* Timeline Dots inside Cards */
+        .timeline-item {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 24px;
+            border-left: 2px solid #e2e8f0;
+        }
+
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -7px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid;
+        }
+
+        /* Modal Animation */
+        #detailModal {
+            transition: opacity 0.3s ease;
+        }
+
+        #modalContent {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8 lg:p-12 relative">
+
+    <!-- Header Section -->
+    <header class="max-w-7xl mx-auto mb-12 border-b-2 border-slate-200 pb-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                    <i class="fas fa-layer-group text-indigo-600 mr-2"></i> Roadmap Per Mata Kuliah
+                </h1>
+                <p class="text-slate-600 max-w-2xl">
+                    Klik kartu mata kuliah untuk melihat <strong>Detail Materi Mingguan</strong> sesuai RPS Semester 2
+                    PTIK UNS.
+                </p>
+            </div>
+            <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded text-sm text-indigo-800 max-w-md">
+                <i class="fas fa-mouse-pointer mr-1"></i> Klik kartu untuk membuka silabus
+                lengkap.
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- 1. PEMROGRAMAN BERORIENTASI OBJEK (PBO) -->
+        <article onclick="openModal('pbo')"
+            class="subject-card bg-white rounded-xl shadow-md border-t-4 border-blue-500 overflow-hidden group hover:border-blue-600">
+            <div class="p-6 bg-blue-50 border-b border-blue-100 group-hover:bg-blue-100 transition-colors">
+                <div class="flex justify-between items-start mb-2">
+                    <h2 class="text-xl font-bold text-blue-900">Pemrograman Objek</h2>
+                    <span class="bg-blue-200 text-blue-800 text-xs font-bold px-2 py-1 rounded">3 SKS</span>
+                </div>
+                <div class="text-sm text-blue-700 font-medium flex items-center gap-2">
+                    <i class="fab fa-python text-lg"></i> Bahasa: Python
+                </div>
+                <p class="text-xs text-blue-600 mt-2 italic">Fokus: Gamifikasi & Logika Class</p>
+            </div>
+
+            <div class="p-6 flex-grow">
+                <div class="timeline-item border-blue-200">
+                    <div class="timeline-dot border-blue-500"></div>
+                    <h3 class="font-bold text-slate-800">1. Konsep Dasar & Sintaks</h3>
+                    <p class="text-sm text-slate-600 mt-1">Class, Object, Constructor (`__init__`).</p>
+                    <div class="conn-badge bg-purple-100 text-purple-700 border border-purple-200">
+                        <i class="fas fa-link"></i> 🔗 MatDis: Himpunan
+                    </div>
+                </div>
+                <div class="timeline-item border-blue-200">
+                    <div class="timeline-dot border-blue-500"></div>
+                    <h3 class="font-bold text-slate-800">2. Pewarisan (Inheritance)</h3>
+                    <p class="text-sm text-slate-600 mt-1">Parent & Child Class. Overriding method.</p>
+                </div>
+                <div class="timeline-item border-blue-200">
+                    <div class="timeline-dot border-blue-500"></div>
+                    <h3 class="font-bold text-slate-800">3. Polymorphism & Exception</h3>
+                    <p class="text-sm text-slate-600 mt-1">Interface, Abstract Class, Error Handling.</p>
+                </div>
+                <div class="timeline-item border-blue-200">
+                    <div class="timeline-dot bg-blue-500 border-blue-500"></div>
+                    <h3 class="font-bold text-blue-700">🚀 Proyek: Gamifikasi</h3>
+                    <p class="text-sm text-slate-600 mt-1">Game Python dengan penerapan OOP penuh.</p>
+                </div>
+            </div>
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                <span><i class="fas fa-info-circle"></i> Klik untuk detail</span>
+                <span class="font-bold text-blue-600">Lihat Silabus <i class="fas fa-arrow-right ml-1"></i></span>
+            </div>
+        </article>
+
+        <!-- 2. ALGORITMA & STRUKTUR DATA -->
+        <article onclick="openModal('algo')"
+            class="subject-card bg-white rounded-xl shadow-md border-t-4 border-red-500 overflow-hidden group hover:border-red-600">
+            <div class="p-6 bg-red-50 border-b border-red-100 group-hover:bg-red-100 transition-colors">
+                <div class="flex justify-between items-start mb-2">
+                    <h2 class="text-xl font-bold text-red-900">Algoritma & Strukdat</h2>
+                    <span class="bg-red-200 text-red-800 text-xs font-bold px-2 py-1 rounded">2 SKS</span>
+                </div>
+                <div class="text-sm text-red-700 font-medium flex items-center gap-2">
+                    <i class="fas fa-code text-lg"></i> C++ / Python
+                </div>
+                <p class="text-xs text-red-600 mt-2 italic">Fokus: Efisiensi (Big O) & Pointer</p>
+            </div>
+
+            <div class="p-6 flex-grow">
+                <div class="timeline-item border-red-200">
+                    <div class="timeline-dot border-red-500"></div>
+                    <h3 class="font-bold text-slate-800">1. Kompleksitas & Array</h3>
+                    <p class="text-sm text-slate-600 mt-1">Big O, Array Statis, Record/Struct.</p>
+                </div>
+                <div class="timeline-item border-red-200">
+                    <div class="timeline-dot border-red-500"></div>
+                    <h3 class="font-bold text-slate-800">2. Sorting & Searching</h3>
+                    <p class="text-sm text-slate-600 mt-1">Bubble, Quick, Merge Sort. Binary Search.</p>
+                    <div class="conn-badge bg-purple-100 text-purple-700 border border-purple-200">
+                        <i class="fas fa-link"></i> 🔗 MatDis: Rekursif
+                    </div>
+                </div>
+                <div class="timeline-item border-red-200">
+                    <div class="timeline-dot border-red-500"></div>
+                    <h3 class="font-bold text-slate-800">3. Stack & Queue</h3>
+                    <p class="text-sm text-slate-600 mt-1">LIFO & FIFO. Struktur antrean memori.</p>
+                </div>
+                <div class="timeline-item border-red-200">
+                    <div class="timeline-dot bg-red-500 border-red-500"></div>
+                    <h3 class="font-bold text-red-700">⚡ Linked List (Pointer)</h3>
+                    <p class="text-sm text-slate-600 mt-1">Single & Double Linked List.</p>
+                </div>
+            </div>
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                <span><i class="fas fa-info-circle"></i> Klik untuk detail</span>
+                <span class="font-bold text-red-600">Lihat Silabus <i class="fas fa-arrow-right ml-1"></i></span>
+            </div>
+        </article>
+
+        <!-- 3. MATEMATIKA DISKRIT -->
+        <article onclick="openModal('matdis')"
+            class="subject-card bg-white rounded-xl shadow-md border-t-4 border-purple-500 overflow-hidden group hover:border-purple-600">
+            <div class="p-6 bg-purple-50 border-b border-purple-100 group-hover:bg-purple-100 transition-colors">
+                <div class="flex justify-between items-start mb-2">
+                    <h2 class="text-xl font-bold text-purple-900">Matematika Diskrit</h2>
+                    <span class="bg-purple-200 text-purple-800 text-xs font-bold px-2 py-1 rounded">3 SKS</span>
+                </div>
+                <div class="text-sm text-purple-700 font-medium flex items-center gap-2">
+                    <i class="fas fa-brain text-lg"></i> Logika & Teori
+                </div>
+                <p class="text-xs text-purple-600 mt-2 italic">Fokus: Logika Dasar Komputer</p>
+            </div>
+
+            <div class="p-6 flex-grow">
+                <div class="timeline-item border-purple-200">
+                    <div class="timeline-dot border-purple-500"></div>
+                    <h3 class="font-bold text-slate-800">1. Logika & Himpunan</h3>
+                    <p class="text-sm text-slate-600 mt-1">Tabel Kebenaran (AND/OR), Himpunan.</p>
+                    <div class="conn-badge bg-blue-100 text-blue-700 border border-blue-200">
+                        <i class="fas fa-link"></i> 🔗 PBO: If/Else
+                    </div>
+                </div>
+                <div class="timeline-item border-purple-200">
+                    <div class="timeline-dot border-purple-500"></div>
+                    <h3 class="font-bold text-slate-800">2. Relasi Rekursif</h3>
+                    <p class="text-sm text-slate-600 mt-1">Induksi Matematika, Fungsi Rekursif.</p>
+                </div>
+                <div class="timeline-item border-purple-200">
+                    <div class="timeline-dot border-purple-500"></div>
+                    <h3 class="font-bold text-slate-800">3. Aljabar Boolean</h3>
+                    <p class="text-sm text-slate-600 mt-1">Gerbang Logika & Peta Karnaugh.</p>
+                </div>
+                <div class="timeline-item border-purple-200">
+                    <div class="timeline-dot bg-purple-500 border-purple-500"></div>
+                    <h3 class="font-bold text-purple-700">🧩 Teori Graf</h3>
+                    <p class="text-sm text-slate-600 mt-1">Shortest Path (Dijkstra), Tree.</p>
+                </div>
+            </div>
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                <span><i class="fas fa-info-circle"></i> Klik untuk detail</span>
+                <span class="font-bold text-purple-600">Lihat Silabus <i class="fas fa-arrow-right ml-1"></i></span>
+            </div>
+        </article>
+
+        <!-- 4. SISTEM OPERASI -->
+        <article onclick="openModal('os')"
+            class="subject-card bg-white rounded-xl shadow-md border-t-4 border-indigo-500 overflow-hidden group hover:border-indigo-600">
+            <div class="p-6 bg-indigo-50 border-b border-indigo-100 group-hover:bg-indigo-100 transition-colors">
+                <div class="flex justify-between items-start mb-2">
+                    <h2 class="text-xl font-bold text-indigo-900">Sistem Operasi</h2>
+                    <span class="bg-indigo-200 text-indigo-800 text-xs font-bold px-2 py-1 rounded">3 SKS</span>
+                </div>
+                <div class="text-sm text-indigo-700 font-medium flex items-center gap-2">
+                    <i class="fab fa-linux text-lg"></i> Linux / Ubuntu
+                </div>
+                <p class="text-xs text-indigo-600 mt-2 italic">Fokus: Manajemen Resource</p>
+            </div>
+
+            <div class="p-6 flex-grow">
+                <div class="timeline-item border-indigo-200">
+                    <div class="timeline-dot border-indigo-500"></div>
+                    <h3 class="font-bold text-slate-800">1. Linux CLI & Process</h3>
+                    <p class="text-sm text-slate-600 mt-1">Instalasi, CLI (`ls`, `ps`), User Mgmt.</p>
+                    <div class="conn-badge bg-emerald-100 text-emerald-700 border border-emerald-200">
+                        <i class="fas fa-link"></i> 🔗 Jarkom: Server
+                    </div>
+                </div>
+                <div class="timeline-item border-indigo-200">
+                    <div class="timeline-dot border-indigo-500"></div>
+                    <h3 class="font-bold text-slate-800">2. Scheduling & Deadlock</h3>
+                    <p class="text-sm text-slate-600 mt-1">CPU Scheduling (Round Robin), Deadlock.</p>
+                </div>
+                <div class="timeline-item border-indigo-200">
+                    <div class="timeline-dot border-indigo-500"></div>
+                    <h3 class="font-bold text-slate-800">3. Memory & File</h3>
+                    <p class="text-sm text-slate-600 mt-1">Virtual Memory, Paging, Permission (`chmod`).</p>
+                </div>
+            </div>
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                <span><i class="fas fa-info-circle"></i> Klik untuk detail</span>
+                <span class="font-bold text-indigo-600">Lihat Silabus <i class="fas fa-arrow-right ml-1"></i></span>
+            </div>
+        </article>
+
+        <!-- 5. ADMINISTRASI JARINGAN -->
+        <article onclick="openModal('jarkom')"
+            class="subject-card bg-white rounded-xl shadow-md border-t-4 border-emerald-500 overflow-hidden md:col-span-2 lg:col-span-1 group hover:border-emerald-600">
+            <div class="p-6 bg-emerald-50 border-b border-emerald-100 group-hover:bg-emerald-100 transition-colors">
+                <div class="flex justify-between items-start mb-2">
+                    <h2 class="text-xl font-bold text-emerald-900">Admin Jaringan</h2>
+                    <span class="bg-emerald-200 text-emerald-800 text-xs font-bold px-2 py-1 rounded">3 SKS</span>
+                </div>
+                <div class="text-sm text-emerald-700 font-medium flex items-center gap-2">
+                    <i class="fas fa-network-wired text-lg"></i> Mikrotik & Linux
+                </div>
+                <p class="text-xs text-emerald-600 mt-2 italic">Fokus: Infrastruktur & Layanan</p>
+            </div>
+
+            <div class="p-6 flex-grow">
+                <div class="timeline-item border-emerald-200">
+                    <div class="timeline-dot border-emerald-500"></div>
+                    <h3 class="font-bold text-slate-800">1. Subnetting & Routing</h3>
+                    <p class="text-sm text-slate-600 mt-1">IPv4, VLSM, OSPF, VLAN, Mikrotik.</p>
+                    <div class="conn-badge bg-purple-100 text-purple-700 border border-purple-200">
+                        <i class="fas fa-link"></i> 🔗 MatDis: Biner/Graf
+                    </div>
+                </div>
+                <div class="timeline-item border-emerald-200">
+                    <div class="timeline-dot border-emerald-500"></div>
+                    <h3 class="font-bold text-slate-800">2. Linux Server</h3>
+                    <p class="text-sm text-slate-600 mt-1">DNS, DHCP, Web, FTP, Mail Server.</p>
+                </div>
+                <div class="timeline-item border-emerald-200">
+                    <div class="timeline-dot bg-emerald-500 border-emerald-500"></div>
+                    <h3 class="font-bold text-emerald-700">🌐 Proyek: Virtual Server</h3>
+                    <p class="text-sm text-slate-600 mt-1">Deploy VPS dengan topologi lengkap.</p>
+                </div>
+            </div>
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex justify-between text-xs text-slate-500">
+                <span><i class="fas fa-info-circle"></i> Klik untuk detail</span>
+                <span class="font-bold text-emerald-600">Lihat Silabus <i class="fas fa-arrow-right ml-1"></i></span>
+            </div>
+        </article>
+
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="detailModal"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <!-- Modal Content -->
+        <div id="modalContent"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col transform scale-95 opacity-0 transition-all duration-300">
+
+            <!-- Modal Header -->
+            <div id="modalHeader"
+                class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 rounded-t-2xl">
+                <div>
+                    <h2 id="modalTitle" class="text-2xl font-bold text-slate-900">Judul Mata Kuliah</h2>
+                    <p id="modalSubtitle" class="text-sm text-slate-600 mt-1">Deskripsi singkat</p>
+                </div>
+                <button onclick="closeModal()"
+                    class="text-slate-400 hover:text-slate-600 hover:bg-slate-200 p-2 rounded-full transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-6 overflow-y-auto custom-scrollbar">
+                <div id="modalBody" class="space-y-6">
+                    <!-- Dynamic Content Here -->
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl text-right">
+                <button onclick="closeModal()"
+                    class="px-6 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 font-medium transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Silabus berdasarkan RPS UNS
+        const subjectsData = {
+            'pbo': {
+                title: "Pemrograman Berorientasi Objek",
+                subtitle: "3 SKS | Bahasa: Python | Fokus: Gamifikasi",
+                colorClass: "blue",
+                syllabus: [
+                    { week: "1-2", topic: "Pengenalan & Konsep Dasar", desc: "Paradigma OOP vs Prosedural. Instalasi Python/IDE. Membuat Class dan Object sederhana." },
+                    { week: "3-4", topic: "Encapsulation & Constructor", desc: "Method `__init__`, Access Modifiers (Public, Protected, Private), Getter & Setter." },
+                    { week: "5-7", topic: "Inheritance (Pewarisan)", desc: "Konsep Parent/Child Class, `super()`, Overriding Methods. Studi kasus: Karakter Game." },
+                    { week: "8", topic: "UJIAN TENGAH SEMESTER", desc: "Evaluasi Teori Konsep OOP (Bobot Besar!).", isExam: true },
+                    { week: "9-10", topic: "Polymorphism & Abstraction", desc: "Abstract Class, Interface (di Python menggunakan `abc` module), Polymorphism dinamis." },
+                    { week: "11-12", topic: "Exception Handling & File I/O", desc: "Menangani error dengan `try-except-finally`. Membaca/Menulis file eksternal." },
+                    { week: "13-16", topic: "Proyek Akhir: Gamifikasi", desc: "Pengembangan Game menggunakan Library (PyGame/Tkinter). Penerapan pewarisan dan interaksi objek.", isProject: true }
+                ]
+            },
+            'algo': {
+                title: "Algoritma & Struktur Data",
+                subtitle: "2 SKS | Bahasa: C++/Python | Fokus: Efisiensi & Pointer",
+                colorClass: "red",
+                syllabus: [
+                    { week: "1-2", topic: "Kompleksitas Algoritma", desc: "Analisis Big O (Time & Space Complexity). Best case, Worst case, Average case." },
+                    { week: "3", topic: "Array & Record", desc: "Array statis, Array dinamis, Struct/Record. Operasi dasar (Insert, Delete)." },
+                    { week: "4-7", topic: "Sorting & Searching", desc: "Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort. Binary Search." },
+                    { week: "8", topic: "UJIAN TENGAH SEMESTER", desc: "Analisis algoritma sorting & tracing kode (Bobot 50%).", isExam: true },
+                    { week: "9-11", topic: "Stack & Queue", desc: "Implementasi LIFO (Stack) dan FIFO (Queue) menggunakan Array." },
+                    { week: "12-14", topic: "Linked List (Pointer)", desc: "Single Linked List, Double Linked List. Operasi Node (Push Head/Tail, Pop Head/Tail)." },
+                    { week: "15-16", topic: "Proyek Akhir Struktur Data", desc: "Implementasi struktur data dinamis untuk studi kasus nyata (misal: Aplikasi Antrian RS).", isProject: true }
+                ]
+            },
+            'matdis': {
+                title: "Matematika Diskrit",
+                subtitle: "3 SKS | Teori Dasar Komputer | Asesmen: Case Method",
+                colorClass: "purple",
+                syllabus: [
+                    { week: "1-2", topic: "Logika Proposisi", desc: "Tabel Kebenaran, Tautologi, Kontradiksi, Ekuivalensi Logis, Hukum De Morgan." },
+                    { week: "3-4", topic: "Himpunan (Set Theory)", desc: "Operasi Himpunan (Irisan, Gabungan), Diagram Venn, Prinsip Inklusi-Eksklusi." },
+                    { week: "5-7", topic: "Relasi & Fungsi", desc: "Sifat Relasi (Refleksif, Simetris, Transitif). Fungsi Injektif, Surjektif. Induksi Matematika." },
+                    { week: "8", topic: "UJIAN TENGAH SEMESTER", desc: "Tes tertulis pembuktian logika & himpunan.", isExam: true },
+                    { week: "9-11", topic: "Aljabar Boolean", desc: "Gerbang Logika (AND, OR, NOT, NAND). Penyederhanaan fungsi boolean dengan Peta Karnaugh (K-Map)." },
+                    { week: "12-13", topic: "Teori Graf Dasar", desc: "Definisi Graf, Derajat Vertex, Graf Terhubung, Graf Euler & Hamilton." },
+                    { week: "14-16", topic: "Pohon (Tree) & Algoritma Graf", desc: "Spanning Tree, Minimum Spanning Tree (Prim/Kruskal), Shortest Path (Dijkstra).", isProject: true }
+                ]
+            },
+            'os': {
+                title: "Sistem Operasi",
+                subtitle: "3 SKS | Linux & Manajemen Resource | Asesmen: Case & Project",
+                colorClass: "indigo",
+                syllabus: [
+                    { week: "1-2", topic: "Pengenalan & Instalasi OS", desc: "Sejarah OS, Struktur Sistem Komputer. Praktikum: Instalasi Linux (Ubuntu/Debian)." },
+                    { week: "3-4", topic: "Manajemen Proses", desc: "Konsep Proses, Thread, Status Proses. Perintah CLI: `ps`, `top`, `kill`." },
+                    { week: "5-7", topic: "CPU Scheduling", desc: "Algoritma Penjadwalan: FCFS, Shortest Job First, Priority, Round Robin." },
+                    { week: "8", topic: "UJIAN TENGAH SEMESTER", desc: "Analisis studi kasus penjadwalan proses.", isExam: true },
+                    { week: "9-10", topic: "Deadlock & Konkurensi", desc: "Penyebab Deadlock, Mutual Exclusion, Banker's Algorithm. Studi kasus: Race Condition." },
+                    { week: "11-13", topic: "Manajemen Memori", desc: "RAM fisik vs Virtual Memory. Konsep Paging, Segmentation, dan Page Replacement." },
+                    { week: "14-16", topic: "File System & Keamanan", desc: "Struktur Direktori Linux, Izin Akses (`chmod`, `chown`). Manajemen User & Group.", isProject: true }
+                ]
+            },
+            'jarkom': {
+                title: "Administrasi Jaringan Komputer",
+                subtitle: "3 SKS | Mikrotik & Linux Server | Fokus: Praktik",
+                colorClass: "emerald",
+                syllabus: [
+                    { week: "1-2", topic: "Konsep Jaringan & IP Address", desc: "OSI Layer, TCP/IP. Perhitungan IPv4, CIDR, Subnetting, VLSM." },
+                    { week: "3-5", topic: "Routing & Switching", desc: "Konfigurasi Router (Mikrotik/Cisco). Static Routing, Dynamic Routing (OSPF). VLAN." },
+                    { week: "6-7", topic: "Simulasi Jaringan", desc: "Desain topologi menggunakan Packet Tracer / GNS3 / EVE-NG." },
+                    { week: "8", topic: "UJIAN TENGAH SEMESTER", desc: "Tes subnetting dan analisis routing table.", isExam: true },
+                    { week: "9-11", topic: "Layanan Server Dasar", desc: "Instalasi Linux Server. Konfigurasi DNS Server (Bind9), DHCP Server." },
+                    { week: "12-13", topic: "Web & File Server", desc: "Web Server (Apache/Nginx), Database (MySQL), FTP Server." },
+                    { week: "14-16", topic: "Proyek: Virtual Server", desc: "Virtualisasi (Proxmox/VirtualBox). Deploy VPS lengkap dengan keamanan dasar.", isProject: true }
+                ]
+            }
+        };
+
+        const modal = document.getElementById('detailModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSubtitle = document.getElementById('modalSubtitle');
+        const modalBody = document.getElementById('modalBody');
+
+        function openModal(subjectKey) {
+            const data = subjectsData[subjectKey];
+            if (!data) return;
+
+            // Set Header Content & Color
+            modalTitle.innerText = data.title;
+            modalSubtitle.innerText = data.subtitle;
+
+            // Reset colors
+            const header = document.getElementById('modalHeader');
+            header.className = `p-6 border-b border-${data.colorClass}-100 flex justify-between items-center bg-${data.colorClass}-50 rounded-t-2xl`;
+            modalTitle.className = `text-2xl font-bold text-${data.colorClass}-900`;
+
+            // Generate Body Content
+            modalBody.innerHTML = data.syllabus.map(item => {
+                let badgeColor = `bg-${data.colorClass}-100 text-${data.colorClass}-700`;
+                let borderStyle = `border-l-4 border-${data.colorClass}-300`;
+
+                if (item.isExam) {
+                    badgeColor = "bg-amber-100 text-amber-800";
+                    borderStyle = "border-l-4 border-amber-500 bg-amber-50";
+                } else if (item.isProject) {
+                    badgeColor = "bg-slate-800 text-white";
+                    borderStyle = "border-l-4 border-slate-700 bg-slate-50";
+                }
+
+                return `
+                <div class="relative pl-4 py-2 ${borderStyle} rounded-r-lg">
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="text-xs font-bold uppercase tracking-wider ${badgeColor} px-2 py-0.5 rounded">Minggu ${item.week}</span>
+                    </div>
+                    <h4 class="font-bold text-slate-800 text-lg">${item.topic}</h4>
+                    <p class="text-slate-600 text-sm mt-1 leading-relaxed">${item.desc}</p>
+                </div>
+                `;
+            }).join('');
+
+            // Show Modal with Animation
+            modal.classList.remove('hidden');
+            // Small timeout to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    </script>
+</body>
+
+</html>
