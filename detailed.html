@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Akademik Intensif - Semester 2 (Enhanced)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .content-area {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-btn {
+            transition: all 0.2s;
+        }
+
+        .nav-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+        }
+
+        .nav-btn:hover:not(.active) {
+            background-color: #f1f5f9;
+        }
+
+        .week-btn.active {
+            background-color: #0f172a;
+            color: white;
+            border-color: #0f172a;
+        }
+
+        /* Subject Colors */
+        .tag-algo {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .tag-pbo {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        .tag-matdis {
+            background: #f3e8ff;
+            color: #6b21a8;
+            border: 1px solid #e9d5ff;
+        }
+
+        .tag-os {
+            background: #e0e7ff;
+            color: #3730a3;
+            border: 1px solid #c7d2fe;
+        }
+
+        .tag-jarkom {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .session-card {
+            border-left: 4px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .session-card:hover {
+            transform: translateX(4px);
+        }
+
+        /* Math Symbols Helper */
+        .math-symbol {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8 max-w-5xl mx-auto min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="mb-6 border-b border-slate-200 pb-6">
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">
+            <i class="fas fa-university text-indigo-600 mr-2"></i> Jadwal Sinau
+        </h1>
+        <p class="text-slate-600">
+            Roadmap 4 Minggu: Semester 2 + <span class="font-bold text-indigo-600">Bonus Tea</span>.
+        </p>
+
+        <!-- Week Selector -->
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+            <span class="text-sm font-bold text-slate-500 uppercase tracking-wider mr-2">Pilih Minggu:</span>
+            <button onclick="setWeek(1)" id="week-1"
+                class="week-btn active px-4 py-1.5 rounded-full border border-slate-300 text-sm font-bold text-slate-600 transition">Minggu
+                1</button>
+            <button onclick="setWeek(2)" id="week-2"
+                class="week-btn px-4 py-1.5 rounded-full border border-slate-300 text-sm font-bold text-slate-600 transition">Minggu
+                2</button>
+            <button onclick="setWeek(3)" id="week-3"
+                class="week-btn px-4 py-1.5 rounded-full border border-slate-300 text-sm font-bold text-slate-600 transition">Minggu
+                3</button>
+            <button onclick="setWeek(4)" id="week-4"
+                class="week-btn px-4 py-1.5 rounded-full border border-slate-300 text-sm font-bold text-slate-600 transition">Minggu
+                4</button>
+        </div>
+    </header>
+
+    <!-- Day Navigation -->
+    <div
+        class="flex flex-wrap gap-2 mb-8 sticky top-2 z-10 bg-white/90 backdrop-blur p-2 rounded-xl border border-slate-200 shadow-sm">
+        <button onclick="setDay('mon')" id="btn-mon"
+            class="nav-btn active flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-600 text-center">SENIN</button>
+        <button onclick="setDay('tue')" id="btn-tue"
+            class="nav-btn flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-600 text-center">SELASA</button>
+        <button onclick="setDay('wed')" id="btn-wed"
+            class="nav-btn flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-600 text-center">RABU</button>
+        <button onclick="setDay('thu')" id="btn-thu"
+            class="nav-btn flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-600 text-center">KAMIS</button>
+        <button onclick="setDay('fri')" id="btn-fri"
+            class="nav-btn flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-600 text-center">JUMAT</button>
+        <button onclick="setDay('sat')" id="btn-sat"
+            class="nav-btn flex-1 px-4 py-2 rounded-lg border border-slate-200 text-sm font-bold text-slate-600 text-center">SABTU</button>
+    </div>
+
+    <!-- Dynamic Content Area -->
+    <main id="schedule-content" class="content-area flex-grow">
+        <!-- Content will be injected by JavaScript -->
+    </main>
+
+    <footer class="mt-12 pt-6 border-t border-slate-200 text-center text-slate-500 text-sm">
+        <p>Skeptis Analitis: Materi RPS (Wajib) + Wawasan Tambahan (Penting untuk Karir).</p>
+    </footer>
+
+    <script>
+        // --- DATA SILABUS MINGGUAN (Berdasarkan RPS + Extra Insight) ---
+        const syllabus = {
+            1: {
+                theme: "Minggu 1: Pengenalan & Konsep Dasar",
+                mon: [
+                    {
+                        time: "08:00 - 10:00", subject: "Matematika Diskrit", tag: "tag-matdis", title: "Logika Proposisi Dasar",
+                        desc: "Memahami unit terkecil logika komputer.",
+                        points: [
+                            "Definisi Proposisi: Kalimat deklaratif (True/False).",
+                            "Operator Dasar: Negasi (&not;), Konjungsi (&wedge;), Disjungsi (&vee;).",
+                            "Latihan: Membuat Tabel Kebenaran untuk <code>p &wedge; q</code>."
+                        ],
+                        extras: [
+                            "<strong>Fuzzy Logic:</strong> Apa bedanya logika True/False tegas dengan logika 'samar' (misal: 'sedikit panas') yang dipakai di AI?",
+                            "<strong>Paradoks Russel:</strong> Mengapa himpunan tidak boleh memuat dirinya sendiri? (Fondasi bug logika)."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "Algoritma", tag: "tag-algo", title: "Pengantar & Big O Intro",
+                        desc: "Mengapa kita butuh mengukur efisiensi kode?",
+                        points: [
+                            "Definisi Algoritma & Pseudocode.",
+                            "Konsep Time Complexity vs Space Complexity.",
+                            "Mengenal notasi Big O (O(1), O(n))."
+                        ],
+                        extras: [
+                            "<strong>Amortized Analysis:</strong> Mengapa `ArrayList.add()` itu O(1) tapi kadang-kadang O(n)?",
+                            "<strong>P vs NP Problem:</strong> Masalah matematika terbesar di ilmu komputer yang belum terpecahkan."
+                        ]
+                    }
+                ],
+                tue: [
+                    {
+                        time: "08:00 - 11:00", subject: "PBO (Python)", tag: "tag-pbo", title: "Paradigma OOP",
+                        desc: "Pergeseran pola pikir dari Prosedural ke Objek.",
+                        points: [
+                            "Konsep Class (Cetakan) vs Object (Hasil).",
+                            "Syntax Python: <code>class Mahasiswa:</code>",
+                            "Atribut & Method dasar."
+                        ],
+                        extras: [
+                            "<strong>Python Data Model:</strong> Pelajari 'Magic Methods' (`__str__`, `__repr__`, `__eq__`) untuk membuat objek terasa 'native'.",
+                            "<strong>Mutable vs Immutable:</strong> Kenapa mengubah list di dalam fungsi mengubah aslinya, tapi integer tidak? (Pass by Assignment)."
+                        ]
+                    }
+                ],
+                wed: [
+                    {
+                        time: "08:00 - 10:00", subject: "Sistem Operasi", tag: "tag-os", title: "Struktur Sistem Komputer",
+                        desc: "Bagaimana OS bekerja di atas Hardware.",
+                        points: [
+                            "Komponen OS: Kernel, Shell, File System.",
+                            "Mode Kernel vs Mode User.",
+                            "Praktik: Instalasi Linux di VirtualBox (CLI Mode)."
+                        ],
+                        extras: [
+                            "<strong>Monolithic vs Microkernel:</strong> Perdebatan arsitektur Linux vs Minix (Tanenbaum–Torvalds debate).",
+                            "<strong>System Calls (strace):</strong> Cara melihat 'percakapan' rahasia antara program Pythonmu dengan Kernel Linux."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "Algoritma", tag: "tag-algo", title: "Review Array Dasar",
+                        desc: "Operasi memori statis.",
+                        points: [
+                            "Deklarasi Array 1 Dimensi.",
+                            "Akses elemen via Index.",
+                            "Kelemahan Array Statis (Fixed Size)."
+                        ],
+                        extras: [
+                            "<strong>Buffer Overflow:</strong> Bagaimana hacker memanfaatkan kelemahan array statis untuk meretas sistem?",
+                            "<strong>Cache Locality:</strong> Mengapa iterasi Array lebih cepat daripada Linked List secara hardware?"
+                        ]
+                    }
+                ],
+                thu: [
+                    {
+                        time: "08:00 - 11:00", subject: "Admin Jarkom", tag: "tag-jarkom", title: "Konsep IP Address",
+                        desc: "Matematika di balik internet.",
+                        points: [
+                            "Konversi Biner ke Desimal (Wajib lancar).",
+                            "Struktur IPv4 (32-bit).",
+                            "Kelas IP (A, B, C) & Subnet Mask Default."
+                        ],
+                        extras: [
+                            "<strong>MAC Address Spoofing:</strong> Bagaimana cara kerja identitas fisik kartu jaringan?",
+                            "<strong>IPv4 vs IPv6:</strong> Kenapa dunia belum sepenuhnya pindah ke IPv6? Apa itu Dual Stack?"
+                        ]
+                    }
+                ],
+                fri: [
+                    {
+                        time: "08:00 - 10:00", subject: "Algoritma", tag: "tag-algo", title: "Latihan Logika Dasar",
+                        desc: "Mengasah logika tanpa coding kompleks.",
+                        points: [
+                            "Studi Kasus: Menukar isi dua variabel (Swap).",
+                            "Studi Kasus: Mencari nilai Max/Min dalam Array."
+                        ],
+                        extras: [
+                            "<strong>Bit Manipulation (XOR Swap):</strong> Cara menukar variabel tanpa variabel ketiga.",
+                            "<strong>Two Pointers Technique:</strong> Trik optimasi loop untuk soal-soal interview coding."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "PBO", tag: "tag-pbo", title: "Constructor (__init__)",
+                        desc: "Bagaimana objek lahir.",
+                        points: [
+                            "Method <code>__init__(self)</code>.",
+                            "Parameter `self` dalam Python.",
+                            "Latihan: Membuat Class `Mobil` dengan atribut warna & merk."
+                        ],
+                        extras: [
+                            "<strong>Singleton Pattern:</strong> Bagaimana memastikan sebuah Class hanya bisa punya SATU object saja? (Berguna untuk koneksi Database).",
+                            "<strong>Destructor (__del__):</strong> Apa yang terjadi saat objek dihapus dari memori?"
+                        ]
+                    }
+                ],
+                sat: [
+                    {
+                        time: "09:00 - 11:00", subject: "Review", tag: "bg-slate-800 text-white", title: "Ujian Mandiri Minggu 1",
+                        desc: "Cek pemahaman dasar.",
+                        points: [
+                            "Tulis ulang Tabel Kebenaran AND, OR, NOT.",
+                            "Jelaskan beda Class vs Object.",
+                            "Konversi IP 192.168.1.1 ke Biner."
+                        ],
+                        extras: [
+                            "<strong>Review Tool:</strong> Coba gunakan 'Anki' (Flashcard App) untuk menghafal tabel kebenaran dan port jaringan.",
+                            "<strong>Challenge:</strong> Coba jelaskan konsep 'Big O' kepada orang awam (Teknik Feynman)."
+                        ]
+                    }
+                ]
+            },
+            2: {
+                theme: "Minggu 2: Logika Lanjut & Subnetting",
+                mon: [
+                    {
+                        time: "08:00 - 10:00", subject: "Matematika Diskrit", tag: "tag-matdis", title: "Implikasi & Ekuivalensi",
+                        desc: "Bagian tersulit logika dasar.",
+                        points: [
+                            "Implikasi (<span class='math-symbol'>p &rarr; q</span>): Hanya salah jika T &rarr; F.",
+                            "Bi-implikasi (<span class='math-symbol'>p &harr; q</span>).",
+                            "Hukum De Morgan: <code>&not;(p &wedge; q) &equiv; &not;p &vee; &not;q</code>."
+                        ],
+                        extras: [
+                            "<strong>Logic Gates Simulator:</strong> Coba mainkan 'Logisim' atau game 'Turing Complete' di Steam.",
+                            "<strong>Satisfiability (SAT) Solvers:</strong> Bagaimana logika dipakai untuk memecahkan jadwal ujian otomatis."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "Algoritma", tag: "tag-algo", title: "Analisis Kompleksitas Lanjut",
+                        desc: "Menghitung efisiensi loop.",
+                        points: [
+                            "Nested Loop = O(n&sup2;).",
+                            "Best Case, Worst Case, Average Case.",
+                            "Analisis algoritma pencarian linear."
+                        ],
+                        extras: [
+                            "<strong>Halting Problem:</strong> Bisakah kita membuat program yang mengecek apakah program lain akan error infinite loop? (Alan Turing membuktikan: TIDAK).",
+                            "<strong>Premature Optimization:</strong> Kapan kita HARUS mengabaikan efisiensi demi kode yang bersih?"
+                        ]
+                    }
+                ],
+                tue: [
+                    {
+                        time: "08:00 - 11:00", subject: "PBO", tag: "tag-pbo", title: "Encapsulation",
+                        desc: "Melindungi data sensitif.",
+                        points: [
+                            "Access Modifier: Public, Protected (_), Private (__).",
+                            "Getter & Setter Methods.",
+                            "Kenapa kita butuh menyembunyikan data?"
+                        ],
+                        extras: [
+                            "<strong>Python Property Decorators:</strong> Cara 'Pythonic' membuat getter/setter tanpa method `get_x()` yang kaku (`@property`).",
+                            "<strong>Name Mangling:</strong> Bagaimana Python sebenarnya menyimpan variabel `__private` (Hint: `_ClassName__var`)."
+                        ]
+                    }
+                ],
+                wed: [
+                    {
+                        time: "08:00 - 10:00", subject: "Sistem Operasi", tag: "tag-os", title: "Manajemen Proses",
+                        desc: "Inti kerja CPU.",
+                        points: [
+                            "Process State: New &rarr; Ready &rarr; Running.",
+                            "Process Control Block (PCB).",
+                            "Perintah CLI: <code>ps aux</code>, <code>top</code>, <code>kill</code>."
+                        ],
+                        extras: [
+                            "<strong>Daemon Process:</strong> Apa itu 'Service' background di Linux? (systemd).",
+                            "<strong>Zombie & Orphan Process:</strong> Kasus horor di mana proses anak ditinggal mati induknya."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "Algoritma", tag: "tag-algo", title: "Record / Struct",
+                        desc: "Menyimpan data kompleks.",
+                        points: [
+                            "Konsep Record (Kumpulan data beda tipe).",
+                            "Implementasi: Dictionary di Python / Struct di C++.",
+                            "Array of Records."
+                        ],
+                        extras: [
+                            "<strong>JSON Serialization:</strong> Bagaimana mengubah Struct/Object menjadi string JSON untuk dikirim via internet?",
+                            "<strong>Data Alignment/Padding:</strong> Bagaimana Struct disimpan di memori fisik (Kenapa urutan variabel mempengaruhi size struct?)."
+                        ]
+                    }
+                ],
+                thu: [
+                    {
+                        time: "08:00 - 11:00", subject: "Admin Jarkom", tag: "tag-jarkom", title: "Subnetting Dasar (CIDR)",
+                        desc: "Membagi jaringan besar.",
+                        points: [
+                            "Notasi CIDR (/24, /25, dst).",
+                            "Menghitung Jumlah Host Valid (2<sup>h</sup> - 2).",
+                            "Menentukan Network ID & Broadcast ID."
+                        ],
+                        extras: [
+                            "<strong>Magic Number Trick:</strong> Cara menghitung subnetting dalam 5 detik tanpa mengubah ke biner.",
+                            "<strong>Private vs Public IP:</strong> Konsep NAT (Network Address Translation) yang membuat IP 192.168.x.x ada di mana-mana."
+                        ]
+                    }
+                ],
+                fri: [
+                    {
+                        time: "08:00 - 10:00", subject: "Algoritma", tag: "tag-algo", title: "Searching Algorithms",
+                        desc: "Mencari data dengan cepat.",
+                        points: [
+                            "Linear Search (O(n)).",
+                            "Binary Search (O(log n)) - Data wajib urut.",
+                            "Simulasi manual Binary Search."
+                        ],
+                        extras: [
+                            "<strong>Interpolation Search:</strong> Mencari data seperti mencari kata di kamus (menebak posisi).",
+                            "<strong>Ternary Search:</strong> Mencari nilai maksimum/minimum pada fungsi kurva parabola."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "PBO", tag: "tag-pbo", title: "Latihan Encapsulation",
+                        desc: "Studi kasus Bank.",
+                        points: [
+                            "Buat Class `Rekening`.",
+                            "Saldo bersifat Private.",
+                            "Method `tarik_tunai()` dengan validasi saldo."
+                        ],
+                        extras: [
+                            "<strong>Immutable Objects:</strong> Konsep 'Value Objects' di Domain Driven Design (DDD).",
+                            "<strong>Security:</strong> Mengapa menyimpan password sebagai String polos di objek itu berbahaya? (Memory dump)."
+                        ]
+                    }
+                ],
+                sat: [
+                    {
+                        time: "09:00 - 11:00", subject: "Review", tag: "bg-slate-800 text-white", title: "Ujian Mandiri Minggu 2",
+                        desc: "Self-Test Logika & Jaringan.",
+                        points: [
+                            "Buktikan Hukum De Morgan dengan Tabel Kebenaran.",
+                            "Hitung Subnet /26 (Netmask, Range IP).",
+                            "Jelaskan siklus hidup Proses di OS."
+                        ],
+                        extras: [
+                            "<strong>Coding Challenge:</strong> Coba selesaikan soal 'Binary Search' di LeetCode (Easy).",
+                            "<strong>Explore:</strong> Install 'Wireshark' dan coba intip paket data yang keluar masuk laptopmu."
+                        ]
+                    }
+                ]
+            },
+            3: {
+                theme: "Minggu 3: Himpunan & Routing",
+                mon: [
+                    {
+                        time: "08:00 - 10:00", subject: "Matematika Diskrit", tag: "tag-matdis", title: "Teori Himpunan",
+                        desc: "Dasar database dan grouping.",
+                        points: [
+                            "Notasi Himpunan (Set Builder).",
+                            "Operasi: Irisan (&cap;), Gabungan (&cup;).",
+                            "Prinsip Inklusi-Eksklusi."
+                        ],
+                        extras: [
+                            "<strong>Infinite Sets (Georg Cantor):</strong> Bagaimana ada tak terhingga yang 'lebih besar' dari tak terhingga lainnya? (Aleph Null).",
+                            "<strong>SQL Joins:</strong> Memahami INNER JOIN, LEFT JOIN sebagai operasi himpunan."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "Algoritma", tag: "tag-algo", title: "Sorting Dasar (O(n²))",
+                        desc: "Algoritma pengurutan sederhana.",
+                        points: [
+                            "Bubble Sort: Konsep gelembung.",
+                            "Selection Sort: Pilih min/max.",
+                            "Insertion Sort: Konsep kartu remi."
+                        ],
+                        extras: [
+                            "<strong>Stable vs Unstable Sorting:</strong> Apa bedanya? Kenapa penting saat mengurutkan Excel (Sort by Name, then by Date)?",
+                            "<strong>Visualisasi:</strong> Tonton video '15 Sorting Algorithms in 6 Minutes' di YouTube untuk intuisi visual."
+                        ]
+                    }
+                ],
+                tue: [
+                    {
+                        time: "08:00 - 11:00", subject: "PBO", tag: "tag-pbo", title: "Inheritance (Pewarisan)",
+                        desc: "Code Reusability.",
+                        points: [
+                            "Konsep Parent Class & Child Class.",
+                            "Syntax: <code>class Mahasiswa(Orang):</code>",
+                            "Menggunakan <code>super()</code>."
+                        ],
+                        extras: [
+                            "<strong>Multiple Inheritance:</strong> Masalah 'Diamond Problem' dan solusinya di Python (MRO - Method Resolution Order).",
+                            "<strong>Liskov Substitution Principle (LSP):</strong> Prinsip SOLID - Anak harus bisa menggantikan Orang Tua tanpa merusak program."
+                        ]
+                    }
+                ],
+                wed: [
+                    {
+                        time: "08:00 - 10:00", subject: "Sistem Operasi", tag: "tag-os", title: "Scheduling CPU",
+                        desc: "Algoritma Penjadwalan (Part 1).",
+                        points: [
+                            "Konsep Preemptive vs Non-Preemptive.",
+                            "FCFS (First Come First Serve).",
+                            "Hitung Average Waiting Time FCFS."
+                        ],
+                        extras: [
+                            "<strong>Real-time Scheduling:</strong> Bagaimana OS pada Robot atau Pesawat menjadwalkan tugas? (Hard vs Soft Real-time).",
+                            "<strong>Context Switch Cost:</strong> Biaya mahal saat CPU berpindah tugas (menyimpan register, flush cache)."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "Algoritma", tag: "tag-algo", title: "Latihan Sorting",
+                        desc: "Tracing manual.",
+                        points: [
+                            "Simulasikan Bubble Sort langkah demi langkah di kertas.",
+                            "Analisis: Kenapa Bubble Sort lambat?"
+                        ],
+                        extras: [
+                            "<strong>Cocktail Shaker Sort:</strong> Optimasi Bubble Sort dua arah.",
+                            "<strong>Sleep Sort:</strong> Algoritma sorting 'guyon' berbasis timer OS (nggo gayeng gayeng ae)."
+                        ]
+                    }
+                ],
+                thu: [
+                    {
+                        time: "08:00 - 11:00", subject: "Admin Jarkom", tag: "tag-jarkom", title: "VLSM & Routing Static",
+                        desc: "Subnetting tingkat lanjut.",
+                        points: [
+                            "Variable Length Subnet Mask (VLSM).",
+                            "Konsep Routing Table.",
+                            "Konfigurasi Static Route di Cisco/Mikrotik."
+                        ],
+                        extras: [
+                            "<strong>BGP (Border Gateway Protocol):</strong> Protokol routing inti internet. Bagaimana satu negara bisa putus internet?",
+                            "<strong>Traceroute:</strong> Cara melacak lompatan paket data dari laptopmu ke server Google."
+                        ]
+                    }
+                ],
+                fri: [
+                    {
+                        time: "08:00 - 10:00", subject: "Algoritma", tag: "tag-algo", title: "Rekursif Dasar",
+                        desc: "Fungsi memanggil diri sendiri.",
+                        points: [
+                            "Base Case & Recursive Step.",
+                            "Contoh: Faktorial & Fibonacci.",
+                            "Bahaya Infinite Recursion."
+                        ],
+                        extras: [
+                            "<strong>Tail Recursion Optimization:</strong> Bagaimana compiler mengubah rekursif menjadi loop agar hemat memori.",
+                            "<strong>Fractal:</strong> Aplikasi rekursif dalam seni grafis (Segitiga Sierpinski)."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "PBO", tag: "tag-pbo", title: "Polymorphism Intro",
+                        desc: "Banyak bentuk.",
+                        points: [
+                            "Overriding Method (Menimpa method ortu).",
+                            "Studi kasus: Method `bersuara()` pada Kucing vs Anjing."
+                        ],
+                        extras: [
+                            "<strong>Duck Typing:</strong> Filosofi Python - 'If it walks like a duck and quacks like a duck, it's a duck'.",
+                            "<strong>Operator Overloading:</strong> Membuat tanda `+` bisa menjumlahkan dua objek `Koordinat(x,y)`."
+                        ]
+                    }
+                ],
+                sat: [
+                    {
+                        time: "09:00 - 11:00", subject: "Review", tag: "bg-slate-800 text-white", title: "Ujian Mandiri Minggu 3",
+                        desc: "Hitungan Berat.",
+                        points: [
+                            "Hitung VLSM untuk 3 divisi beda ukuran.",
+                            "Hitung Waiting Time FCFS.",
+                            "Buat diagram Venn untuk (A &cap; B) &cup; C."
+                        ],
+                        extras: [
+                            "<strong>Explore:</strong> Coba 'GNS3' atau 'EVE-NG' untuk simulasi jaringan yang lebih realistis daripada Packet Tracer.",
+                            "<strong>Project Idea:</strong> Buat visualizer Bubble Sort sederhana menggunakan Python (Matplotlib)."
+                        ]
+                    }
+                ]
+            },
+            4: {
+                theme: "Minggu 4: Sorting Cepat & Scheduling Lanjut",
+                mon: [
+                    {
+                        time: "08:00 - 10:00", subject: "Matematika Diskrit", tag: "tag-matdis", title: "Relasi & Fungsi",
+                        desc: "Hubungan antar himpunan.",
+                        points: [
+                            "Sifat Relasi: Refleksif, Simetris, Transitif.",
+                            "Fungsi: Injektif, Surjektif, Bijektif.",
+                            "Pigeonhole Principle (Sarang Merpati)."
+                        ],
+                        extras: [
+                            "<strong>Cryptography (RSA):</strong> Aplikasi Relasi Modulo dan Bilangan Prima dalam keamanan password.",
+                            "<strong>Hash Functions:</strong> Fungsi satu arah yang dipakai untuk menyimpan password di database."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "Algoritma", tag: "tag-algo", title: "Advanced Sorting (O(n log n))",
+                        desc: "Algoritma cepat.",
+                        points: [
+                            "Merge Sort (Divide & Conquer).",
+                            "Quick Sort (Partitioning).",
+                            "Visualisasi tree rekursif Merge Sort."
+                        ],
+                        extras: [
+                            "<strong>Timsort:</strong> Algoritma sorting hybrid (Merge + Insertion) yang dipakai default di Python dan Java.",
+                            "<strong>External Sorting:</strong> Bagaimana cara menyortir file 100GB jika RAM hanya 4GB?"
+                        ]
+                    }
+                ],
+                tue: [
+                    {
+                        time: "08:00 - 11:00", subject: "PBO", tag: "tag-pbo", title: "Abstraction",
+                        desc: "Menyembunyikan detail implementasi.",
+                        points: [
+                            "Abstract Class & Abstract Method.",
+                            "Library `abc` di Python.",
+                            "Kapan pakai Interface vs Abstract Class?"
+                        ],
+                        extras: [
+                            "<strong>Dependency Injection:</strong> Teknik mengurangi ketergantungan antar class agar mudah di-test.",
+                            "<strong>Design Patterns:</strong> Pengantar ke 'Factory Pattern' (Cara elegan membuat objek kompleks)."
+                        ]
+                    }
+                ],
+                wed: [
+                    {
+                        time: "08:00 - 10:00", subject: "Sistem Operasi", tag: "tag-os", title: "Scheduling Lanjut",
+                        desc: "Algoritma modern.",
+                        points: [
+                            "SJF (Shortest Job First).",
+                            "Round Robin (Time Quantum).",
+                            "Hitung Turnaround Time."
+                        ],
+                        extras: [
+                            "<strong>Multilevel Queue Scheduling:</strong> Mengapa proses sistem lebih prioritas daripada proses user?",
+                            "<strong>CFS (Completely Fair Scheduler):</strong> Algoritma penjadwalan default di Linux Kernel modern."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "Algoritma", tag: "tag-algo", title: "Stack & Queue Intro",
+                        desc: "Struktur data linear.",
+                        points: [
+                            "Stack: LIFO (Tumpukan piring).",
+                            "Queue: FIFO (Antrean bioskop).",
+                            "Operasi: Push, Pop, Enqueue, Dequeue."
+                        ],
+                        extras: [
+                            "<strong>Expression Evaluation:</strong> Bagaimana kalkulator menghitung `3 + 4 * 2` menggunakan Stack (Infix to Postfix).",
+                            "<strong>Breadth-First Search (BFS):</strong> Algoritma pencarian graf yang menggunakan Queue."
+                        ]
+                    }
+                ],
+                thu: [
+                    {
+                        time: "08:00 - 11:00", subject: "Admin Jarkom", tag: "tag-jarkom", title: "VLAN & Trunking",
+                        desc: "Virtual LAN.",
+                        points: [
+                            "Konsep Broadcast Domain.",
+                            "Tagging 802.1Q.",
+                            "Konfigurasi Trunk antar Switch."
+                        ],
+                        extras: [
+                            "<strong>VxLAN:</strong> Teknologi VLAN di era Cloud Computing (AWS/Azure).",
+                            "<strong>Spanning Tree Protocol (STP):</strong> Mencegah looping kabel yang bisa mematikan jaringan satu gedung."
+                        ]
+                    }
+                ],
+                fri: [
+                    {
+                        time: "08:00 - 10:00", subject: "Algoritma", tag: "tag-algo", title: "Review Sorting",
+                        desc: "Komparasi algoritma.",
+                        points: [
+                            "Kapan pakai Quick Sort vs Merge Sort?",
+                            "Analisis Space Complexity Merge Sort."
+                        ],
+                        extras: [
+                            "<strong>Radix Sort:</strong> Sorting tanpa membandingkan nilai (Non-comparison sort), sangat cepat untuk integer.",
+                            "<strong>Sorting Network:</strong> Sorting di level hardware (paralel)."
+                        ]
+                    },
+                    {
+                        time: "10:30 - 12:30", subject: "PBO", tag: "tag-pbo", title: "Proyek Mini PBO",
+                        desc: "Integrasi konsep.",
+                        points: [
+                            "Rancang sistem 'Perpustakaan'.",
+                            "Gunakan Inheritance (Buku, Majalah).",
+                            "Gunakan Encapsulation (Stok)."
+                        ],
+                        extras: [
+                            "<strong>Unit Testing (unittest/pytest):</strong> Cara profesional memastikan kode PBO Anda bebas bug.",
+                            "<strong>Git Flow:</strong> Cara mengelola versi kode saat bekerja tim."
+                        ]
+                    }
+                ],
+                sat: [
+                    {
+                        time: "09:00 - 11:00", subject: "Review", tag: "bg-slate-800 text-white", title: "Ujian Besar Bulan 1",
+                        desc: "Evaluasi Komprehensif.",
+                        points: [
+                            "Analisis: Merge Sort vs Bubble Sort.",
+                            "Hitung Round Robin Scheduling.",
+                            "Desain Class Diagram Perpustakaan."
+                        ],
+                        extras: [
+                            "<strong>Career Path:</strong> Backend Engineer vs DevOps Engineer - Mana yang lebih cocok dengan minatmu sejauh ini?",
+                            "<strong>Mock Interview:</strong> Coba jawab pertanyaan 'Jelaskan konsep OOP' seolah sedang wawancara kerja."
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentWeek = 1;
+        let currentDay = 'mon';
+
+        function renderSchedule() {
+            const data = syllabus[currentWeek][currentDay];
+            const theme = syllabus[currentWeek].theme;
+            const container = document.getElementById('schedule-content');
+
+            // Generate Header Theme
+            let html = `
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">${theme}</h2>
+                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wide mt-1">
+                            ${getDayName(currentDay)}
+                        </p>
+                    </div>
+                    <span class="text-3xl text-slate-200 font-bold">W${currentWeek}</span>
+                </div>
+                <div class="space-y-4">
+            `;
+
+            if (data && data.length > 0) {
+                data.forEach(session => {
+                    html += `
+                    <div class="session-card bg-white p-6 rounded-xl shadow-sm border border-slate-200 ${getBorderColor(session.tag)}">
+                        <div class="flex flex-wrap justify-between items-start mb-3 gap-2">
+                            <span class="${session.tag} text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wide border-opacity-50">${session.time}</span>
+                            <span class="text-xs font-bold text-slate-400 uppercase">${session.subject}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900 leading-tight">${session.title}</h3>
+                        <p class="text-sm text-slate-600 mt-2 italic">${session.desc}</p>
+                        
+                        <!-- Core RPS Material -->
+                        <div class="mt-4 pt-4 border-t border-slate-100">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-2">Target RPS (Wajib):</h4>
+                            <ul class="list-disc list-inside text-sm text-slate-700 space-y-1.5 ml-1">
+                                ${session.points.map(p => `<li>${p}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <!-- Expert Insight (New Feature) -->
+                        ${session.extras ? `
+                        <div class="mt-4 bg-indigo-50 p-3 rounded-lg border border-indigo-100">
+                            <h5 class="text-xs font-bold text-indigo-700 uppercase mb-2 flex items-center">
+                                <i class="fas fa-lightbulb mr-1.5 text-indigo-500"></i> Materi Pengayaan (Expert Insight):
+                            </h5>
+                            <ul class="text-xs text-indigo-900 space-y-2">
+                                ${session.extras.map(e => `<li class="flex items-start"><span class="mr-2">•</span><span>${e}</span></li>`).join('')}
+                            </ul>
+                        </div>
+                        ` : ''}
+
+                    </div>
+                    `;
+                });
+            } else {
+                html += `<div class="p-8 text-center text-slate-400 italic">Tidak ada jadwal akademik terjadwal. Gunakan untuk istirahat atau review bebas.</div>`;
+            }
+
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function setWeek(week) {
+            currentWeek = week;
+            document.querySelectorAll('.week-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`week-${week}`).classList.add('active');
+            renderSchedule();
+        }
+
+        function setDay(day) {
+            currentDay = day;
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${day}`).classList.add('active');
+            renderSchedule();
+        }
+
+        function getDayName(id) {
+            const map = { 'mon': 'Senin', 'tue': 'Selasa', 'wed': 'Rabu', 'thu': 'Kamis', 'fri': 'Jumat', 'sat': 'Sabtu' };
+            return map[id];
+        }
+
+        function getBorderColor(tagClass) {
+            if (tagClass.includes('algo')) return 'border-l-red-500';
+            if (tagClass.includes('pbo')) return 'border-l-blue-500';
+            if (tagClass.includes('matdis')) return 'border-l-purple-500';
+            if (tagClass.includes('os')) return 'border-l-indigo-500';
+            if (tagClass.includes('jarkom')) return 'border-l-emerald-500';
+            return 'border-l-slate-500';
+        }
+
+        renderSchedule();
+
+    </script>
+</body>
+
+</html>
